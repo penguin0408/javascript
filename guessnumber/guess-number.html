@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!--<link rel="icon" href="../../favicon.ico">-->
+
+  <title>Guess number</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
+
+  <!-- Custom styles for this template -->
+  <link href="stylesheets/dashboard.css" rel="stylesheet">
+
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+          aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Project name</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#">Settings</a></li>
+          <li><a href="#">Profile</a></li>
+          <li><a href="#">Help</a></li>
+        </ul>
+        <form class="navbar-form navbar-right">
+          <input type="text" class="form-control" placeholder="Search...">
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+          <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+          <li><a href="#">Reports</a></li>
+          <li><a href="#">Analytics</a></li>
+          <li><a href="#">Export</a></li>
+        </ul>
+        <ul class="nav nav-sidebar">
+          <li><a href="">Nav item</a></li>
+          <li><a href="">Nav item again</a></li>
+          <li><a href="">One more nav</a></li>
+          <li><a href="">Another nav item</a></li>
+          <li><a href="">More navigation</a></li>
+        </ul>
+        <ul class="nav nav-sidebar">
+          <li><a href="">Nav item again</a></li>
+          <li><a href="">One more nav</a></li>
+          <li><a href="">Another nav item</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="btn-group btn-group-justified">
+                <a id="start" type="button" class="btn btn-default">開始</a>
+                <a id="restart" type="button" class="btn btn-default">放棄重來</a>
+                <a id="cheat" type="button" class="btn btn-default">看答案</a>
+              </div>
+              <br>
+              <ul id="guessResults" class="list-group">
+              </ul>
+              <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon1">猜答案</span>
+                <input id="userGuess" type="text" name="" class="form-control" value="" required="required">
+                <span class="input-group-btn">
+                  <a id="guess" type="button" class="btn btn-default">猜!</a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!--<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>-->
+  <script src="scripts/bootstrap.min.js"></script>
+  <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+  <!--<script src="../../assets/js/vendor/holder.min.js"></script>-->
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
+  <script>
+    var answer = "";
+    var start = document.getElementById("start");
+    start.onclick = startgame;
+    var restart = document.getElementById("restart");
+    restart.onclick = restartgame;
+    var cheat = document.getElementById("cheat");
+    cheat.onclick = watchanswer;
+    var guess = document.getElementById("guess");
+    guess.onclick = checknumber;
+    var userGuess = document.getElementById("userGuess");
+    alert("想玩遊戲?按開始吧~~");
+
+    function getnumber() {
+      while (answer.length < 4) {
+        var number = Math.floor(Math.random() * 10)
+        if (answer.indexOf(number) == -1) {
+          answer += number;
+        }
+      }
+    }
+    function startgame() {
+      if(answer==0){
+      document.getElementById("guessResults").innerHTML = " ";
+      userGuess.value = "";
+      getnumber();
+      }
+      else if(answer!=0){
+        alert("遊戲進行中~~");
+      }    }
+    function checknumber() {
+      var ug = userGuess.value;
+
+      if (answer.length !== 4) {
+        alert("猜甚麼猜!!遊戲都還沒開始~~~~");
+        userGuess.value = "";
+        return
+      }
+      else {
+        if (ug.length !== 4) {
+          alert("輸入的格式不對喔!!");
+          userGuess.value = "";
+          return;
+        }
+        else if (isNaN(ug)) {
+          alert("你輸入的好像不是數字喔~~");
+          userGuess.value = "";
+          return;
+        }
+        else {
+          var check = " ";
+          for (var i = 0; i < ug.length; i++) {
+            var x = ug.charAt(i)
+            if (check.indexOf(x) != -1) {
+              alert("你是不是輸入重複的數字?");
+              userGuess.value = "";
+              return;
+            }
+            check += x;
+          }
+        }
+      }
+      shownumber();
+    }
+    function shownumber() {
+      var a = 0;
+      var b = 0;
+      var uG = userGuess.value;
+      for (var i = 0; i < uG.length; i++) {
+        if (uG[i] == answer[i]) {
+          a++;
+        }
+        else {
+          for (var j = 0; j < answer.length; j++) {
+            if (uG[i] == answer[j]) {
+              b++;
+            }
+          }
+        }
+      }
+      var show = a + "A" + b + "B";
+      var ul = document.getElementById("guessResults");
+      var li = document.createElement("li");
+      li.setAttribute("class", "list-group-item");
+      if (a == 4) {
+        li.innerHTML = "<span class=\'label label-success\'>" + show + "</span>" + " " + uG;
+        userGuess.value = "";
+        ul.appendChild(li);
+        alert("恭喜你答對啦!!!!!!!!");
+        if (confirm("是否開始新的一局") == true) {
+          answer = "";
+          document.getElementById("guessResults").innerHTML = " ";
+          startgame();
+          alert("你開始新的一局~加油!!");
+        }
+      }
+      else {
+        li.innerHTML = "<span class=\'label label-danger\'>" + show + "</span>" + " " + uG;
+        userGuess.value = "";
+        ul.appendChild(li);
+      }
+
+    }
+    function restartgame() {
+      if (answer != 0) {
+        if (confirm("真的要放棄嗎?") == true) {
+          answer = "";
+          document.getElementById("guessResults").innerHTML = " ";
+          alert("你已經放棄遊戲~記得按開始，再開始新的一局喔~~")
+        }
+      }
+      else {
+        alert("都還沒開始遊戲放棄什麼?????");
+      }
+    }
+    function watchanswer() {
+      if (answer == 0) {
+        alert("你不開始遊戲就算了還要偷看答案!!!!!!!");
+      }
+      else {
+        if (confirm("確定要看答案嗎?") == true) {
+          alert("為了考驗你的決心請多按幾次吧~~");
+          for (i = 1; i < 10; i++)
+            alert('第 ' + i + ' 次！');
+          if (confirm("再問一次~真的確定要看答案嗎?") == true) {
+            alert("再多按幾下快可以看到答案了~~");
+            for (i = 1; i < 10; i++)
+              alert('第 ' + i + ' 次！');
+            if (confirm("最後一次~確定要看答案嗎?") == true) {
+              alert("真的啦!!再多按幾次~~你快成功了");
+              for (i = 1; i < 10; i++)
+                alert('第 ' + i + ' 次！');
+              alert("為了獎勵你按了那麼多次，告訴你答案吧~\n答案是: " + answer + "\n其實你在第一次按取消就可以看答案囉~");
+            }
+            else {
+              alert("為甚麼又不看了!!這麼沒有決心嗎?");
+              alert("真的不在考慮一下嗎?");
+              alert("真的嗎?");
+              alert("確定嗎?");
+              alert("好吧~既然你這麼肯定不要看答案，那我也只能很肯定的告訴你答案\n答案是: " + answer);
+            }
+          }
+          else {
+            alert("不~~~為甚麼不看答案了QAQ");
+            alert("看一下啦~拜託");
+            alert("好啦~答案是: " + answer);
+          }
+
+        }
+        else {
+          if (confirm("真的不要嗎?") == true) {
+            for (i = 1; i < 10; i++)
+              alert("看不看答案!!");
+            alert("不管我就是要告訴你答案!!\n答案是: " + answer + "\n其實...\n剛剛你再按一次取消就可以得到正解了");
+          }
+          else {
+            alert("哼!!你越不看答案我越要告訴你\n答案是: " + answer);
+          }
+
+        }
+      }
+    }
+
+
+  </script>
+</body>
+
+</html>
