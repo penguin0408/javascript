@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>finalnumber</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="stylesheets/styles.css" />
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="text-center mt-3">
+            <h1>終極密碼 0~100</h1>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <h3 id="min" class="text-right col-4"></h3>
+            <h3 class="text-center col-2">~</h3>
+            <h3 id="max" class="col-4"></h3>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <h4 class="col-4 text-right">請輸入數字 :</h4>
+            <div class="col-6 ">
+                <input id="input" type="text" class="form-control" style="text-align:right" value="">
+            </div>
+        </div>
+
+    </div>
+    <div class="container">
+        <div class="row justify-content-center mt-4">
+            <button type="button" class="btn btn-outline-dark col-4 show">1</button>
+            <button type="button" class="btn btn-outline-dark col-4 show">2</button>
+            <button type="button" class="btn btn-outline-dark col-4 show">3</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <button type="button" class="btn btn-outline-dark col-4 show">4</button>
+            <button type="button" class="btn btn-outline-dark col-4 show">5</button>
+            <button type="button" class="btn btn-outline-dark col-4 show">6</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <button type="button" class="btn btn-outline-dark col-4 show">7</button>
+            <button type="button" class="btn btn-outline-dark col-4 show">8</button>
+            <button type="button" class="btn btn-outline-dark col-4 show">9</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <button type="button" class="btn btn-danger col-4" onclick="doclear()">清除</button>
+            <button type="button" class="btn btn-outline-dark col-4 show">0</button>
+            <button type="button" class="btn btn-success col-4" onclick="guessnumber()">送出</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <button type="button" class="btn btn-info btn-lg col-4 mr-3" onclick="startgame()">開始遊戲</button>
+            <button type="button" class="btn btn-info btn-lg col-4 ml-3" onclick="restartgame()">放棄遊戲</button>
+        </div>
+    </div>
+    <script>
+
+        var number;
+        var min = document.getElementById("min");
+        var max = document.getElementById("max");
+        var answer = 0;//答案
+        var minvalue = 0;
+        var maxvalue = 100;
+        //開始遊戲
+        function startgame() {
+            if (answer == 0) {
+                answer = Number(Math.floor(Math.random() * 99) + 1);
+                min.innerHTML = minvalue;
+                max.innerHTML = maxvalue;
+            }
+            else {
+                alert("遊戲進行中~請稍後");
+            }
+        }
+        //放棄遊戲
+        function restartgame() {
+            if (answer == 0) {
+                alert("還沒有開始就想放棄?這樣可以嗎????")
+            }
+            else {
+                if (confirm("真的要放棄嗎?") == true) {
+                    answer = "";
+                    input.value = "";
+                    min.innerHTML = minvalue;
+                    max.innerHTML = maxvalue;
+                    alert("你已經放棄遊戲~記得按開始，再開始新的一局喔~~")
+                }
+            }
+        }
+        //輸入數字
+        var input = document.getElementById("input");
+        var show = document.getElementsByClassName("show");
+        for (var i = 0; i < show.length; i++) {
+            show[i].addEventListener("click", shownumber);
+        }
+        function shownumber() {
+            input.value += this.innerHTML;
+        }
+        //清除
+        function doclear() {
+            input.value = "";
+        }
+        //送出
+        function guessnumber() {
+            var check="."
+            var dot=input.value.indexOf(check);
+            if (answer == 0) {
+                alert("你還沒開始遊戲!!");
+            }
+            else if (input.value == "") {
+                alert("要記得輸入數字喔~~");
+            }
+            else if (isNaN(input.value)) {
+                alert("輸入的要是數字喔~~");
+            }
+            else if(dot!=-1){
+                alert("壞壞!!怎麼可以有小數點呢??");
+            }
+            else if (minvalue >= input.value || input.value == 0) {
+                alert("請輸入大於" + minvalue + "的數字")
+            }
+            else if (maxvalue <= input.value || input.value == 100) {
+                alert("請輸入小於" + maxvalue + "的數字")
+            }
+            else if (input.value < answer) {
+                min.innerHTML = input.value;
+                minvalue = Number(input.value);
+            }
+            else if (input.value > answer) {
+                max.innerHTML = input.value;
+                maxvalue = Number(input.value);
+            }
+            else if (answer == input.value) {
+                alert("真棒棒~你猜對了~\n答案就是 : " + answer);
+            }            
+            input.value = "";
+        }
+    </script>
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
